@@ -116,11 +116,8 @@ td.mu{background:#fff0f0}td.mua{background:#f0fff4}
 </div>
 
 <!-- NAV -->
-<div class="nav">
+<div class="nav" id="nav-bar">
   <div class="ntab active" onclick="goto('summary',this)">📋 Tổng Hợp</div>
-  <div class="ntab" onclick="goto('april',this)">Tháng 4</div>
-  <div class="ntab" onclick="goto('may',this)">Tháng 5</div>
-  <div class="ntab" onclick="goto('june',this)">Tháng 6</div>
 </div>
 
 <!-- CONTENT -->
@@ -162,10 +159,8 @@ td.mu{background:#fff0f0}td.mua{background:#f0fff4}
       </div>
     </div>
 
-    <!-- ══ PAGE TEMPLATE: THÁNG ══ -->
-    <div class="page" id="p-april"></div>
-    <div class="page" id="p-may"></div>
-    <div class="page" id="p-june"></div>
+    <!-- ══ PAGE THÁNG: tự động sinh bởi JS ══ -->
+    <div id="month-pages"></div>
 
   </div><!-- /app -->
   <div id="err-area" style="display:none"></div>
@@ -173,10 +168,10 @@ td.mu{background:#fff0f0}td.mua{background:#f0fff4}
 
 <script>
 const API = './data.json';
-const MC  = {April:'#2a78d6', May:'#1baf7a', June:'#eda100'};
-const ML  = {April:'Tháng 4', May:'Tháng 5', June:'Tháng 6'};
-const MONTHS = ['April','May','June'];
-let CI = {}, GD = null;
+const PALETTE = ['#2a78d6','#1baf7a','#eda100','#a855f7','#ef4444','#06b6d4','#f59e0b','#10b981','#6366f1','#ec4899','#14b8a6','#f97316'];
+const MONTH_VI = {January:'Tháng 1',February:'Tháng 2',March:'Tháng 3',April:'Tháng 4',May:'Tháng 5',June:'Tháng 6',July:'Tháng 7',August:'Tháng 8',September:'Tháng 9',October:'Tháng 10',November:'Tháng 11',December:'Tháng 12'};
+const MONTH_ORDER = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+let MONTHS = [], MC = {}, ML = {}, CI = {}, GD = null;
 
 const f2 = v => v!=null ? v.toLocaleString('vi-VN',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
 const f1 = v => v!=null ? v.toLocaleString('vi-VN',{minimumFractionDigits:1,maximumFractionDigits:1}):'—';
@@ -283,8 +278,27 @@ async function fetchData(){
 // RENDER ALL
 // ─────────────────────────────────────────────────────────
 function renderAll(data){
+  // Xây MONTHS theo thứ tự tháng, chỉ lấy tháng có dữ liệu
+  MONTHS = MONTH_ORDER.filter(m => data.months[m]);
+  MONTHS.forEach((m, i) => {
+    MC[m] = PALETTE[i % PALETTE.length];
+    ML[m] = MONTH_VI[m] || m;
+  });
+
+  // Sinh nav tabs động
+  const nav = document.getElementById('nav-bar');
+  nav.innerHTML = `<div class="ntab active" onclick="goto('summary',this)">📋 Tổng Hợp</div>`;
+  MONTHS.forEach(m => {
+    const live = data.months[m]?.is_live ? ' 🔴' : '';
+    nav.innerHTML += `<div class="ntab" onclick="goto('${m.toLowerCase()}',this)">${ML[m]}${live}</div>`;
+  });
+
+  // Sinh page containers động
+  const mp = document.getElementById('month-pages');
+  mp.innerHTML = MONTHS.map(m => `<div class="page" id="p-${m.toLowerCase()}"></div>`).join('');
+
   renderSummary(data);
-  MONTHS.forEach(m=>{ if(data.months[m]) renderMonth(m, data.months[m]); });
+  MONTHS.forEach(m => renderMonth(m, data.months[m]));
 }
 
 // ─────────────────────────────────────────────────────────
