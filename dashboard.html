@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>VNINDEX — Phân Tích Dòng Tiền 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Tahoma,Arial,sans-serif;font-size:13px;background:#eef0f3;color:#1a1a18;min-height:100vh}
+
+/* HEADER */
+.hdr{background:#1a2744;color:#fff;padding:13px 24px;display:flex;align-items:center;justify-content:space-between}
+.hdr-title{font-size:17px;font-weight:700;letter-spacing:.3px}
+.hdr-sub{font-size:11px;opacity:.6;margin-top:2px}
+.hdr-r{display:flex;align-items:center;gap:10px}
+#sdot{width:9px;height:9px;border-radius:50%;background:#f0a500;display:inline-block}
+#sdot.ok{background:#22c55e}#sdot.err{background:#ef4444}
+#stxt{font-size:11px;opacity:.8;color:#fff}
+.btn{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);color:#fff;padding:5px 13px;border-radius:5px;cursor:pointer;font-size:12px;font-family:inherit}
+.btn:hover{background:rgba(255,255,255,.22)}
+
+/* NAV TABS */
+.nav{background:#fff;border-bottom:2px solid #dde2ea;padding:0 24px;display:flex;gap:0;overflow-x:auto}
+.ntab{padding:11px 18px;cursor:pointer;font-size:12.5px;font-weight:600;color:#7a8494;border-bottom:3px solid transparent;white-space:nowrap;transition:all .15s;margin-bottom:-2px}
+.ntab:hover{color:#1a2744}
+.ntab.active{color:#1a2744;border-bottom-color:#2a78d6}
+
+/* SECTION TABS (inside each month) */
+.stabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.stab{padding:6px 14px;border:1px solid #ccc;border-radius:20px;cursor:pointer;font-size:11.5px;color:#666;background:#fff;font-family:inherit}
+.stab:hover{border-color:#2a78d6;color:#2a78d6}
+.stab.active{background:#2a78d6;border-color:#2a78d6;color:#fff}
+.ssec{display:none}.ssec.active{display:block}
+
+/* LAYOUT */
+.wrap{padding:18px 24px;max-width:1440px;margin:0 auto}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.row1{display:grid;grid-template-columns:1fr;gap:14px;margin-bottom:14px}
+
+/* CARDS */
+.card{background:#fff;border:1px solid #dde2ea;border-radius:10px;padding:16px 18px}
+.card-title{font-size:12.5px;font-weight:700;color:#1a2744;margin-bottom:3px}
+.card-sub{font-size:11px;color:#9aa3ae;margin-bottom:12px}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-bottom:16px}
+.kpi{background:#fff;border:1px solid #dde2ea;border-radius:9px;padding:13px 16px}
+.kpi-lbl{font-size:10.5px;color:#9aa3ae;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+.kpi-val{font-size:21px;font-weight:700;color:#1a2744;line-height:1.1}
+.kpi-sub{font-size:11px;margin-top:4px;font-weight:600}
+.up{color:#16a34a}.down{color:#dc2626}.flat{color:#888}.warn{color:#d97706}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:11.5px}
+thead th{background:#1a2744;color:#fff;padding:7px 10px;text-align:center;font-weight:600;white-space:nowrap}
+thead th.sub{background:#2e3f66;font-weight:500}
+tbody tr:nth-child(even){background:#f6f8fb}
+tbody td{padding:6px 10px;border-bottom:1px solid #eef0f3;white-space:nowrap;text-align:right}
+tbody td:first-child{text-align:center;color:#555}
+td.up{color:#16a34a;font-weight:700}td.down{color:#dc2626;font-weight:700}
+td.mu{background:#fff0f0}td.mua{background:#f0fff4}
+
+/* TRANG THAI BADGE */
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10.5px;font-weight:700}
+.b-buy{background:#dcfce7;color:#166534}
+.b-sell{background:#fee2e2;color:#991b1b}
+.b-flat{background:#fef9c3;color:#713f12}
+
+/* XU HUONG */
+.xh-buy2{background:#16a34a;color:#fff;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
+.xh-buy1{background:#86efac;color:#166534;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600}
+.xh-sell2{background:#dc2626;color:#fff;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700}
+.xh-sell1{background:#fca5a5;color:#991b1b;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600}
+.xh-flat{background:#e5e7eb;color:#374151;padding:2px 7px;border-radius:4px;font-size:10px}
+.xh-apl{background:#fef3c7;color:#92400e;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:600}
+
+/* CHART */
+.ch-wrap{position:relative;width:100%}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;font-size:11px;color:#555}
+.legend span{display:flex;align-items:center;gap:5px}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+/* MỨC ĐỘ BADGE */
+.md-strong{background:#16a34a;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.md-normal{background:#2a78d6;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.md-side{background:#d97706;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+
+/* LOADING / ERROR */
+.loading{text-align:center;padding:60px 20px;color:#aaa}
+.spinner{width:30px;height:30px;border:3px solid #e5e7eb;border-top-color:#2a78d6;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.err-box{background:#fef2f2;border:1px solid #fca5a5;border-radius:10px;padding:24px;text-align:center;color:#dc2626}
+.err-box h3{margin-bottom:8px}
+.err-box p{font-size:11.5px;color:#888;line-height:1.7}
+.mono{font-family:monospace;background:#fee2e2;padding:1px 5px;border-radius:3px}
+
+.page{display:none}.page.active{display:block}
+@media(max-width:720px){.row2,.row3{grid-template-columns:1fr}.wrap{padding:10px 12px}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div>
+    <div class="hdr-title">📊 VNINDEX — Phân Tích Dòng Tiền 2026</div>
+    <div class="hdr-sub" id="finfo">Đang kết nối...</div>
+  </div>
+  <div class="hdr-r">
+    <span id="sdot"></span>
+    <span id="stxt">...</span>
+    <button class="btn" onclick="fetchData()">↻ Làm mới</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="ntab active" onclick="goto('summary',this)">📋 Tổng Hợp</div>
+  <div class="ntab" onclick="goto('april',this)">Tháng 4</div>
+  <div class="ntab" onclick="goto('may',this)">Tháng 5</div>
+  <div class="ntab" onclick="goto('june',this)">Tháng 6</div>
+</div>
+
+<!-- CONTENT -->
+<div class="wrap">
+  <div id="loading" class="loading"><div class="spinner"></div>Đang tải dữ liệu...</div>
+  <div id="app" style="display:none">
+
+    <!-- ══ PAGE: TỔNG HỢP ══ -->
+    <div class="page active" id="p-summary">
+      <div class="kpi-grid" id="kpi-summary"></div>
+      <div class="row1">
+        <div class="card">
+          <div class="card-title">Tăng trưởng VNINDEX theo tháng</div>
+          <div class="card-sub">% tăng trưởng từ đầu đến cuối tháng</div>
+          <div class="ch-wrap" style="height:200px"><canvas id="ch-sum-growth" role="img" aria-label="Tăng trưởng VNINDEX"></canvas></div>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="card">
+          <div class="card-title">Giá trị giao dịch TB/phiên (1000 tỷ)</div>
+          <div class="card-sub">Dòng tiền trung bình mỗi phiên theo tháng</div>
+          <div class="ch-wrap" style="height:190px"><canvas id="ch-sum-gtgd" role="img" aria-label="GT giao dịch TB"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Khối Ngoại — Tổng GT giao dịch ròng (Tỷ)</div>
+          <div class="card-sub">Mua ròng (+) / Bán ròng (-)</div>
+          <div class="ch-wrap" style="height:190px"><canvas id="ch-sum-nn" role="img" aria-label="Khối ngoại GT ròng"></canvas></div>
+        </div>
+      </div>
+      <div class="row1">
+        <div class="card">
+          <div class="card-title">Bảng tổng hợp theo tháng</div>
+          <div class="card-sub">Các chỉ tiêu chính — trích từ sheet Tong hop</div>
+          <div class="tbl-wrap"><table id="tbl-summary">
+            <thead><tr id="th-summary"></tr></thead>
+            <tbody id="tb-summary"></tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PAGE TEMPLATE: THÁNG ══ -->
+    <div class="page" id="p-april"></div>
+    <div class="page" id="p-may"></div>
+    <div class="page" id="p-june"></div>
+
+  </div><!-- /app -->
+  <div id="err-area" style="display:none"></div>
+</div>
+
+<script>
+const API = './data.json';
+const MC  = {April:'#2a78d6', May:'#1baf7a', June:'#eda100'};
+const ML  = {April:'Tháng 4', May:'Tháng 5', June:'Tháng 6'};
+const MONTHS = ['April','May','June'];
+let CI = {}, GD = null;
+
+const f2 = v => v!=null ? v.toLocaleString('vi-VN',{minimumFractionDigits:2,maximumFractionDigits:2}):'—';
+const f1 = v => v!=null ? v.toLocaleString('vi-VN',{minimumFractionDigits:1,maximumFractionDigits:1}):'—';
+const fp = v => v!=null ? (v>=0?'+':'')+(v*100).toFixed(2)+'%':'—';
+const fi = v => v!=null ? Math.round(v).toLocaleString('vi-VN'):'—';
+const fm = v => v!=null ? Math.round(v/1e6).toLocaleString('vi-VN'):'—';
+
+function destroyC(id){if(CI[id]){CI[id].destroy();delete CI[id]}}
+
+function mkLine(id,labels,datasets,h=260){
+  destroyC(id);
+  const c=document.getElementById(id);if(!c)return;
+  c.parentElement.style.height=h+'px';
+  CI[id]=new Chart(c,{type:'line',data:{labels,datasets},options:{
+    responsive:true,maintainAspectRatio:false,
+    interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y!=null?ctx.parsed.y.toLocaleString('vi-VN',{minimumFractionDigits:2,maximumFractionDigits:2}):'—'}`}}},
+    scales:{x:{ticks:{font:{size:10.5},color:'#888',maxRotation:45,autoSkip:true,maxTicksLimit:14},grid:{color:'#f0efec'}},
+            y:{ticks:{font:{size:10.5},color:'#888',callback:v=>v.toLocaleString('vi-VN')},grid:{color:'#f0efec'}}}
+  }});
+}
+
+function mkBar(id,labels,dataset,color,h=200,diverge=false){
+  destroyC(id);
+  const c=document.getElementById(id);if(!c)return;
+  c.parentElement.style.height=h+'px';
+  const colors = diverge
+    ? dataset.data.map(v=>v>=0?'#16a34a99':'#dc262699')
+    : dataset.data.map(()=>color+'bb');
+  CI[id]=new Chart(c,{type:'bar',data:{labels,datasets:[{
+    label:dataset.label,data:dataset.data,
+    backgroundColor:colors,borderColor:diverge?dataset.data.map(v=>v>=0?'#16a34a':'#dc2626'):[color],
+    borderWidth:1,borderRadius:4,borderSkipped:false
+  }]},options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      x:{ticks:{font:{size:10.5},color:'#888',maxRotation:45,autoSkip:true,maxTicksLimit:14},grid:{display:false}},
+      y:{ticks:{font:{size:10.5},color:'#888',callback:v=>v.toLocaleString('vi-VN')},grid:{color:'#f0efec'},
+         min:diverge?undefined:undefined}
+    }
+  }});
+}
+
+// ── XU HUONG LABEL ──
+function xhClass(s){
+  if(!s||s==='—') return `<span class="xh-flat">—</span>`;
+  if(s.includes('Áp lực')) return `<span class="xh-apl">${s}</span>`;
+  if(s.includes('↑↑')) return `<span class="xh-buy2">${s}</span>`;
+  if(s.includes('↑'))   return `<span class="xh-buy1">${s}</span>`;
+  if(s.includes('↓↓')) return `<span class="xh-sell2">${s}</span>`;
+  if(s.includes('↓'))   return `<span class="xh-sell1">${s}</span>`;
+  return `<span class="xh-flat">${s}</span>`;
+}
+
+function ttClass(s){
+  if(!s) return '';
+  if(s.includes('Mua')) return '<span class="badge b-buy">'+s+'</span>';
+  if(s.includes('Bán')) return '<span class="badge b-sell">'+s+'</span>';
+  return '<span class="badge b-flat">'+s+'</span>';
+}
+
+function mdClass(s){
+  if(!s) return '';
+  if(s==='Strong') return '<span class="md-strong">Strong ▲</span>';
+  if(s==='Normal') return '<span class="md-normal">Normal →</span>';
+  return '<span class="md-side">Sideway / Weak</span>';
+}
+
+// ─────────────────────────────────────────────────────────
+// FETCH
+// ─────────────────────────────────────────────────────────
+async function fetchData(){
+  document.getElementById('loading').style.display='block';
+  document.getElementById('app').style.display='none';
+  document.getElementById('err-area').style.display='none';
+  const dot=document.getElementById('sdot'), stxt=document.getElementById('stxt');
+  dot.className=''; stxt.textContent='Đang tải...';
+  try{
+    const res=await fetch(API+'?t='+Date.now());
+    const data=await res.json();
+    if(data.error) throw new Error(data.error);
+    GD=data;
+    document.getElementById('finfo').textContent=`${data.file} | Cập nhật: ${data.updated_at}`;
+    dot.className='ok'; stxt.textContent='Kết nối OK';
+    renderAll(data);
+    document.getElementById('loading').style.display='none';
+    document.getElementById('app').style.display='block';
+  }catch(e){
+    dot.className='err'; stxt.textContent='Lỗi kết nối';
+    document.getElementById('loading').style.display='none';
+    document.getElementById('err-area').style.display='block';
+    document.getElementById('err-area').innerHTML=`<div class="err-box">
+      <h3>⚠️ Không tải được dữ liệu</h3>
+      <p>Không tìm thấy file <span class="mono">data.json</span>.<br>
+      Lỗi: <span class="mono">${e.message}</span></p>
+      <p style="margin-top:10px">Chạy: <span class="mono">python export_data.py</span></p>
+      <button class="btn" style="margin-top:14px;color:#dc2626;border-color:#fca5a5" onclick="fetchData()">↻ Thử lại</button>
+    </div>`;
+  }
+}
+
+// ─────────────────────────────────────────────────────────
+// RENDER ALL
+// ─────────────────────────────────────────────────────────
+function renderAll(data){
+  renderSummary(data);
+  MONTHS.forEach(m=>{ if(data.months[m]) renderMonth(m, data.months[m]); });
+}
+
+// ─────────────────────────────────────────────────────────
+// SUMMARY PAGE
+// ─────────────────────────────────────────────────────────
+function renderSummary(data){
+  const stats = MONTHS.map(m=>({m, s: data.months[m]?.stats||{}}));
+
+  // KPI tổng
+  const kpiEl = document.getElementById('kpi-summary');
+  const allVN = MONTHS.flatMap(m=>(data.months[m]?.vnindex||[]));
+  const first = stats.find(s=>s.s.vnindex_dau_thang)?.s.vnindex_dau_thang||0;
+  const lastS = [...stats].reverse().find(s=>s.s.vnindex_cuoi_thang);
+  const lastV = lastS?.s.vnindex_cuoi_thang||0;
+  const totalChg = first>0?(lastV-first)/first:0;
+
+  kpiEl.innerHTML=`
+    ${kpi('VNINDEX đầu kỳ', f2(first), '')}
+    ${kpi('VNINDEX hiện tại', f2(lastV), '')}
+    ${kpi('Tăng trưởng cả kỳ', fp(totalChg), totalChg>=0?'up':'down')}
+    ${kpi('Tổng GT GD (1000 tỷ)', f1(stats.reduce((s,x)=>s+(x.s.tong_gtgd||0),0)), '')}
+    ${kpi('GT TB/phiên (1000 tỷ)', f1(stats.filter(x=>x.s.avg_gtgd_20ng).map(x=>x.s.avg_gtgd_20ng).reduce((s,v)=>s+v,0)/stats.filter(x=>x.s.avg_gtgd_20ng).length||0), '')}
+    ${kpi('Số tháng phân tích', MONTHS.length+' tháng', '')}
+  `;
+
+  // Chart tăng trưởng
+  mkBar('ch-sum-growth',
+    MONTHS.map(m=>ML[m]),
+    {label:'% tăng trưởng', data: MONTHS.map(m=>{const s=data.months[m]?.stats||{};return s.tang_truong?+(s.tang_truong*100).toFixed(2):0;})},
+    '#2a78d6', 200, true);
+
+  // Chart GTGD
+  mkBar('ch-sum-gtgd',
+    MONTHS.map(m=>ML[m]),
+    {label:'GT TB/phiên (1000 tỷ)', data: MONTHS.map(m=>{const s=data.months[m]?.stats||{};return s.avg_gtgd_20ng?+s.avg_gtgd_20ng.toFixed(2):0;})},
+    '#1baf7a', 190);
+
+  // Chart NN ròng
+  const nnVals = MONTHS.map(m=>{const s=data.months[m]?.nn_summary||{};return s.tong_gt_rong?+s.tong_gt_rong.toFixed(1):0;});
+  mkBar('ch-sum-nn',
+    MONTHS.map(m=>ML[m]),
+    {label:'GT ròng Khối Ngoại (tỷ)', data:nnVals},
+    '#eda100',190,true);
+
+  // Bảng tổng hợp
+  if(data.tong_hop){
+    const hdr = ['Tháng','Tăng trưởng','Mức độ','TB GTGD/ngày (1000 tỷ)','Tổng GTGD (1000 tỷ)','TB Lệnh Khớp (triệu)','Tổng KL (triệu)','NN - Tổng KL ròng (tr)','NN - Tổng GT ròng (tỷ)','NN - TB KL','NN - TB GT','GDTT Tổng','GDTT Tăng trưởng','Tự doanh GT (tỷ)'];
+    const thEl = document.getElementById('th-summary');
+    thEl.innerHTML = hdr.map(h=>`<th>${h}</th>`).join('');
+    const MONTH_NAMES = {
+      'Month 1':'T1','Month 2':'T2','Month 3':'T3','Month 4':'Tháng 4',
+      'Month 5':'Tháng 5','Month 6':'Tháng 6','Month 7':'T7','Month 8':'T8',
+      'Month 9':'T9','Month 10':'T10','Month 11':'T11','Month 12':'T12'
+    };
+    document.getElementById('tb-summary').innerHTML =
+      data.tong_hop.data.filter(r=>r[0]).map(r=>{
+        const mn = MONTH_NAMES[r[0]]||r[0];
+        const tg = parseFloat(r[1]);
+        const tgClass = tg>0?'up':tg<0?'down':'flat';
+        return `<tr>
+          <td style="text-align:center;font-weight:600">${mn}</td>
+          <td class="${tgClass}">${isNaN(tg)?r[1]:(tg>0?'+':'')+(tg*100).toFixed(2)+'%'}</td>
+          <td style="text-align:center">${r[2]||'—'}</td>
+          ${[3,4,5,6,7,8,9,10,11,12,13].map(i=>`<td>${r[i]?parseFloat(r[i]).toLocaleString('vi-VN',{maximumFractionDigits:2}):'—'}</td>`).join('')}
+        </tr>`;
+      }).join('');
+  }
+}
+
+function kpi(lbl,val,cls){
+  return `<div class="kpi"><div class="kpi-lbl">${lbl}</div><div class="kpi-val ${cls}">${val}</div></div>`;
+}
+
+// ─────────────────────────────────────────────────────────
+// MONTH PAGE
+// ─────────────────────────────────────────────────────────
+function renderMonth(month, mdata){
+  const pid = 'p-'+month.toLowerCase();
+  const color = MC[month];
+  const label = ML[month];
+  const stats = mdata.stats||{};
+
+  const html=`
+  <div class="stabs">
+    <div class="stab active" onclick="switchSec('${month}','vnindex',this)">📈 VNINDEX</div>
+    <div class="stab" onclick="switchSec('${month}','nn',this)">🌐 Khối Ngoại</div>
+    <div class="stab" onclick="switchSec('${month}','lenh',this)">📋 Đặt Lệnh</div>
+    <div class="stab" onclick="switchSec('${month}','tudoanh',this)">🏦 Tự Doanh</div>
+  </div>
+
+  <!-- SEC: VNINDEX -->
+  <div class="ssec active" id="sec-${month}-vnindex">
+    <div class="kpi-grid">
+      ${kpi('Đầu tháng', f2(stats.vnindex_dau_thang), '')}
+      ${kpi('Cuối tháng', f2(stats.vnindex_cuoi_thang), '')}
+      ${kpi('Tăng trưởng', fp(stats.tang_truong), stats.tang_truong>=0?'up':'down')}
+      ${kpi('Mức độ', mdClass(stats.muc_do)||stats.muc_do, '')}
+      ${kpi('Tổng lệnh khớp (triệu)', f1(stats.tong_lenh_khop), '')}
+      ${kpi('Trung bình lệnh/phiên', f1(stats.avg_lenh_20ng), '')}
+      ${kpi('Tổng GTGD (1000 tỷ)', f1(stats.tong_gtgd), '')}
+      ${kpi('GT TB/phiên (1000 tỷ)', f1(stats.avg_gtgd_20ng), '')}
+    </div>
+    <div class="row1"><div class="card">
+      <div class="card-title">Giá đóng cửa VNINDEX — ${label}</div>
+      <div class="card-sub">Đường giá kèm dải High/Low từng phiên</div>
+      <div class="ch-wrap" style="height:280px"><canvas id="ch-${month}-price" role="img" aria-label="Giá VNINDEX ${label}"></canvas></div>
+    </div></div>
+    <div class="row2">
+      <div class="card">
+        <div class="card-title">Khối lượng khớp lệnh (triệu CP)</div>
+        <div class="card-sub">Thanh khoản từng phiên — ${label}</div>
+        <div class="ch-wrap" style="height:200px"><canvas id="ch-${month}-vol" role="img" aria-label="KL ${label}"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Giá trị khớp lệnh (tỷ VNĐ)</div>
+        <div class="card-sub">Dòng tiền từng phiên — ${label}</div>
+        <div class="ch-wrap" style="height:200px"><canvas id="ch-${month}-val" role="img" aria-label="GT ${label}"></canvas></div>
+      </div>
+    </div>
+    <div class="row1"><div class="card">
+      <div class="card-title">Bảng phân tích VNINDEX — ${label}</div>
+      <div class="card-sub">Dữ liệu từng phiên giao dịch (W1 → AD25)</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Ngày</th><th>Đóng cửa</th><th>Mở cửa</th><th>Cao nhất</th><th>Thấp nhất</th><th>KL Khớp (triệu)</th><th>GT Khớp (tỷ)</th><th>% Thay đổi</th></tr></thead>
+        <tbody id="tb-${month}-vnindex"></tbody>
+      </table></div>
+    </div></div>
+  </div>
+
+  <!-- SEC: KHOI NGOAI -->
+  <div class="ssec" id="sec-${month}-nn">
+    <div class="kpi-grid">
+      ${kpi('Tổng KL GD ròng (tr)', f1(mdata.nn_summary?.tong_kl_rong), (mdata.nn_summary?.tong_kl_rong||0)>=0?'up':'down')}
+      ${kpi('TB KL ròng/ngày (tr)', f1(mdata.nn_summary?.tb_kl_rong), (mdata.nn_summary?.tb_kl_rong||0)>=0?'up':'down')}
+      ${kpi('Tổng GT GD ròng (tỷ)', f1(mdata.nn_summary?.tong_gt_rong), (mdata.nn_summary?.tong_gt_rong||0)>=0?'up':'down')}
+      ${kpi('TB GT ròng/ngày (tỷ)', f1(mdata.nn_summary?.tb_gt_rong), (mdata.nn_summary?.tb_gt_rong||0)>=0?'up':'down')}
+    </div>
+    <div class="row2">
+      <div class="card">
+        <div class="card-title">GT Giao dịch ròng Khối Ngoại (tỷ)</div>
+        <div class="card-sub">Mua ròng (+) / Bán ròng (-) từng phiên</div>
+        <div class="ch-wrap" style="height:210px"><canvas id="ch-${month}-nn-rong" role="img" aria-label="GT ròng NN"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">% Cường độ ròng Khối Ngoại</div>
+        <div class="card-sub">Tỷ lệ GT ròng / tổng GT mua+bán</div>
+        <div class="ch-wrap" style="height:210px"><canvas id="ch-${month}-nn-cuong" role="img" aria-label="Cường độ NN"></canvas></div>
+      </div>
+    </div>
+    <div class="row1"><div class="card">
+      <div class="card-title">Chi tiết Khối Ngoại — ${label}</div>
+      <div class="card-sub">Trạng thái ròng, cường độ, xu hướng dòng tiền theo từng phiên</div>
+      <div class="tbl-wrap"><table>
+        <thead>
+          <tr>
+            <th>Ngày</th>
+            <th>% Thay đổi</th>
+            <th>Trạng thái ròng</th>
+            <th>Cường độ ròng</th>
+            <th>Δ GT Mua vs phiên trước</th>
+            <th>Xu hướng dòng tiền ngoại</th>
+          </tr>
+        </thead>
+        <tbody id="tb-${month}-nn"></tbody>
+      </table></div>
+    </div></div>
+  </div>
+
+  <!-- SEC: DAT LENH -->
+  <div class="ssec" id="sec-${month}-lenh">
+    <div class="row2">
+      <div class="card">
+        <div class="card-title">% Dư mua / Dư bán</div>
+        <div class="card-sub">Tỷ lệ chênh lệch lực mua-bán từng phiên</div>
+        <div class="ch-wrap" style="height:210px"><canvas id="ch-${month}-lenh-du" role="img" aria-label="% dư mua bán"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">% KLTB (Mua - Bán) / Mua</div>
+        <div class="card-sub">Chênh lệch KL trung bình 1 lệnh mua so bán</div>
+        <div class="ch-wrap" style="height:210px"><canvas id="ch-${month}-lenh-kltb" role="img" aria-label="% KLTB mua bán"></canvas></div>
+      </div>
+    </div>
+    <div class="row1"><div class="card">
+      <div class="card-title">Thống kê đặt lệnh mua bán — ${label}</div>
+      <div class="card-sub">Số lệnh, khối lượng đặt mua/bán, KLTB 1 lệnh và xu hướng</div>
+      <div class="tbl-wrap"><table>
+        <thead>
+          <tr>
+            <th rowspan="2">Ngày</th>
+            <th rowspan="2">VNINDEX</th>
+            <th colspan="3" style="border-left:1px solid #3a5080">Lệnh MUA</th>
+            <th colspan="3" style="border-left:1px solid #3a5080">Lệnh BÁN</th>
+            <th rowspan="2" style="border-left:1px solid #3a5080">KL Ròng</th>
+            <th rowspan="2">Xu hướng lệnh</th>
+          </tr>
+          <tr>
+            <th class="sub" style="border-left:1px solid #3a5080">Số lệnh</th>
+            <th class="sub">KL đặt (tr)</th>
+            <th class="sub">KLTB 1 lệnh</th>
+            <th class="sub" style="border-left:1px solid #3a5080">Số lệnh</th>
+            <th class="sub">KL đặt (tr)</th>
+            <th class="sub">KLTB 1 lệnh</th>
+          </tr>
+        </thead>
+        <tbody id="tb-${month}-lenh"></tbody>
+      </table></div>
+    </div></div>
+  </div>
+
+  <!-- SEC: TU DOANH -->
+  <div class="ssec" id="sec-${month}-tudoanh">
+    <div class="kpi-grid">
+      ${kpi('Tổng GT Mua (tỷ)', f1((mdata.tu_doanh||[]).reduce((s,r)=>s+(r.gt_mua||0),0)), '')}
+      ${kpi('Tổng GT Bán (tỷ)', f1((mdata.tu_doanh||[]).reduce((s,r)=>s+(r.gt_ban||0),0)), '')}
+      ${kpi('GT ròng cộng dồn (tỷ)', f1((mdata.tu_doanh||[]).reduce((s,r)=>s+(r.gt_rong||0),0)), (mdata.tu_doanh||[]).reduce((s,r)=>s+(r.gt_rong||0),0)>=0?'up':'down')}
+      ${kpi('Số phiên phân tích', (mdata.tu_doanh||[]).length+' phiên', '')}
+    </div>
+    <div class="row2">
+      <div class="card">
+        <div class="card-title">GT ròng Khối Tự Doanh (tỷ) — ${label}</div>
+        <div class="card-sub">Mua ròng (+) / Bán ròng (-) từng phiên</div>
+        <div class="ch-wrap" style="height:210px"><canvas id="ch-${month}-td-rong" role="img" aria-label="GT ròng tự doanh"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">GT Mua / Bán Khối Tự Doanh (tỷ)</div>
+        <div class="card-sub">So sánh GT mua và bán từng phiên</div>
+        <div class="ch-wrap" style="height:210px"><canvas id="ch-${month}-td-mb" role="img" aria-label="GT mua bán tự doanh"></canvas></div>
+      </div>
+    </div>
+    <div class="row1"><div class="card">
+      <div class="card-title">Chi tiết Khối Tự Doanh — ${label}</div>
+      <div class="card-sub">KL và GT mua/bán/ròng từng phiên</div>
+      <div class="tbl-wrap"><table>
+        <thead>
+          <tr>
+            <th rowspan="2">Ngày</th>
+            <th colspan="2">Mua</th>
+            <th colspan="2">Bán</th>
+            <th colspan="2">Ròng</th>
+            <th rowspan="2">Delta (tỷ)</th>
+          </tr>
+          <tr>
+            <th class="sub">KL (triệu)</th><th class="sub">GT (tỷ)</th>
+            <th class="sub">KL (triệu)</th><th class="sub">GT (tỷ)</th>
+            <th class="sub">KL (triệu)</th><th class="sub">GT (tỷ)</th>
+          </tr>
+        </thead>
+        <tbody id="tb-${month}-td"></tbody>
+      </table></div>
+    </div></div>
+  </div>`;
+
+  document.getElementById(pid).innerHTML=html;
+
+  // Fill tables & charts
+  fillVNIndex(month, mdata.vnindex||[], color);
+  fillNN(month, mdata.khoi_ngoai||[], color);
+  fillLenh(month, mdata.dat_lenh||[], color);
+  fillTD(month, mdata.tu_doanh||[], color);
+}
+
+function fillVNIndex(month, rows, color){
+  // Price chart with H/L band
+  const labs = rows.map(r=>r.date.slice(0,5));
+  destroyC('ch-'+month+'-price');
+  const pc=document.getElementById('ch-'+month+'-price');
+  if(pc){
+    pc.parentElement.style.height='280px';
+    CI['ch-'+month+'-price']=new Chart(pc,{type:'line',data:{labels:labs,datasets:[
+      {label:'Cao nhất',data:rows.map(r=>r.high),borderColor:color+'44',backgroundColor:'transparent',borderWidth:1,pointRadius:0,tension:.25,borderDash:[3,3]},
+      {label:'Đóng cửa',data:rows.map(r=>r.close),borderColor:color,backgroundColor:color+'18',borderWidth:2.5,pointRadius:3,tension:.25,fill:'2'},
+      {label:'Thấp nhất',data:rows.map(r=>r.low),borderColor:color+'44',backgroundColor:'transparent',borderWidth:1,pointRadius:0,tension:.25}
+    ]},options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.dataset.label}: ${ctx.parsed.y?.toLocaleString('vi-VN',{minimumFractionDigits:2})??'—'}`}}},
+      scales:{x:{ticks:{font:{size:10.5},color:'#888',maxRotation:45,autoSkip:true,maxTicksLimit:15},grid:{color:'#f0efec'}},
+              y:{ticks:{font:{size:10.5},color:'#888',callback:v=>v.toLocaleString('vi-VN')},grid:{color:'#f0efec'}}}
+    }});
+  }
+  mkBar('ch-'+month+'-vol',labs,{label:'KL (triệu)',data:rows.map(r=>+(r.vol_kl/1e6).toFixed(1))},color,200);
+  mkBar('ch-'+month+'-val',labs,{label:'GT (tỷ)',data:rows.map(r=>+(r.val_ty).toFixed(1))},color,200);
+
+  // Table
+  const tb=document.getElementById('tb-'+month+'-vnindex');
+  tb.innerHTML=rows.map((r,i)=>{
+    const prev=i>0?rows[i-1].close:null;
+    const chg=prev?(r.close-prev)/prev*100:null;
+    const cls=chg===null?'':chg>0?'up':'down';
+    return `<tr>
+      <td>${r.date}</td>
+      <td class="${cls}" style="font-weight:700">${f2(r.close)}</td>
+      <td>${f2(r.open)}</td>
+      <td style="color:#16a34a">${f2(r.high)}</td>
+      <td style="color:#dc2626">${f2(r.low)}</td>
+      <td>${fm(r.vol_kl)}</td>
+      <td>${f1(r.val_ty)}</td>
+      <td class="${cls}">${chg!==null?(chg>0?'+':'')+chg.toFixed(2)+'%':'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function fillNN(month, rows, color){
+  const labs=rows.map(r=>r.date.slice(0,5));
+  mkBar('ch-'+month+'-nn-rong',labs,{label:'GT ròng (tỷ)',data:rows.map(r=>+(r.gt_rong||0).toFixed(1))},color,210,true);
+  mkBar('ch-'+month+'-nn-cuong',labs,{label:'Cường độ (%)',data:rows.map(r=>r.cuong_do!=null?+(r.cuong_do*100).toFixed(2):0)},color,210,true);
+
+  const maxDelta = Math.max(1, ...rows.map(r=>Math.abs(r.delta_gt!=null?r.delta_gt*100:0)));
+
+  const cuongStyle = v => {
+    if(v==null) return '';
+    const p = v*100;
+    if(p<=-30) return 'background:#b91c1c;color:#fff;font-weight:700';
+    if(p<=-20) return 'background:#dc2626;color:#fff;font-weight:700';
+    if(p<=-10) return 'background:#f97316;color:#fff;font-weight:700';
+    if(p<0)    return 'background:#fde68a;color:#92400e;font-weight:600';
+    if(p>=20)  return 'background:#15803d;color:#fff;font-weight:700';
+    if(p>=10)  return 'background:#16a34a;color:#fff;font-weight:700';
+    if(p>0)    return 'background:#bbf7d0;color:#166534;font-weight:600';
+    return '';
+  };
+
+  const ttStyle = s => {
+    if(!s) return '';
+    const sl = s.toLowerCase();
+    if(sl.includes('mua')) return 'background:#16a34a;color:#fff;font-weight:700';
+    if(sl.includes('bán')||sl.includes('ban')) return 'background:#dc2626;color:#fff;font-weight:700';
+    return '';
+  };
+
+  const miniBar = v => {
+    if(v==null) return '<span style="color:#aaa">—</span>';
+    const pct = Math.min(100, Math.abs(v*100)/maxDelta*100);
+    const isPos = v>=0;
+    const clr = isPos ? '#2a78d6' : '#f97316';
+    const valStr = (v>=0?'+':'')+(v*100).toFixed(1)+'%';
+    return `<div style="display:flex;align-items:center;gap:6px">
+      <div style="width:72px;height:10px;background:#e5e7eb;border-radius:2px;overflow:hidden;flex-shrink:0">
+        <div style="width:${pct.toFixed(0)}%;height:100%;background:${clr};border-radius:2px"></div>
+      </div>
+      <span style="font-size:11px;color:${isPos?'#1d4ed8':'#c2410c'};font-weight:600">${valStr}</span>
+    </div>`;
+  };
+
+  const tb=document.getElementById('tb-'+month+'-nn');
+  tb.innerHTML=rows.map(r=>{
+    const pct=r.pct_chg;
+    const ts=ttStyle(r.trang_thai);
+    const cs=cuongStyle(r.cuong_do);
+    return `<tr>
+      <td style="text-align:center">${r.date}</td>
+      <td class="${(pct||0)>=0?'up':'down'}" style="text-align:center">${pct!=null?(pct>=0?'+':'')+pct.toFixed(2)+'%':'—'}</td>
+      <td style="${ts};text-align:center">${r.trang_thai||'—'}</td>
+      <td style="${cs};text-align:center">${r.cuong_do!=null?(r.cuong_do*100).toFixed(1)+'%':'—'}</td>
+      <td style="min-width:150px">${miniBar(r.delta_gt)}</td>
+      <td>${xhClass(r.xu_huong)}</td>
+    </tr>`;
+  }).join('');
+}
+
+function fillLenh(month, rows, color){
+  const labs=rows.map(r=>r.date.slice(0,5));
+  mkBar('ch-'+month+'-lenh-du',labs,{label:'% Dư mua/bán',data:rows.map(r=>r.pct_du!=null?+(r.pct_du*100).toFixed(2):0)},color,210,true);
+  mkBar('ch-'+month+'-lenh-kltb',labs,{label:'% KLTB (Mua-Bán)/Mua',data:rows.map(r=>r.pct_kltb!=null?+(r.pct_kltb*100).toFixed(2):0)},color,210,true);
+
+  const tb=document.getElementById('tb-'+month+'-lenh');
+  tb.innerHTML=rows.map(r=>{
+    const du=r.pct_du||0;
+    return `<tr>
+      <td>${r.date}</td>
+      <td>${r.xu_huong?'':''}</td>
+      <td style="font-weight:600">${fi(r.sl_mua)}</td>
+      <td>${fm(r.kl_mua)}</td>
+      <td>${fi(r.kltb_mua)}</td>
+      <td style="font-weight:600">${fi(r.sl_ban)}</td>
+      <td>${fm(r.kl_ban)}</td>
+      <td>${fi(r.kltb_ban)}</td>
+      <td class="${du>=0?'up':'down'}" style="font-weight:700">${r.kl_rong!=null?fm(r.kl_rong):'—'}</td>
+      <td>${xhClass(r.xu_huong)}</td>
+    </tr>`;
+  }).join('');
+  // fill VNINDEX col
+  const vn=GD?.months[month]?.vnindex||[];
+  const vnMap={};vn.forEach(r=>{vnMap[r.date]=r;});
+  document.querySelectorAll(`#tb-${month}-lenh tr`).forEach((tr,i)=>{
+    const d=rows[i]?.date;
+    const v=vnMap[d];
+    if(v) tr.children[1].textContent=f2(v.close);
+  });
+}
+
+function fillTD(month, rows, color){
+  const labs=rows.map(r=>r.date.slice(0,5));
+  mkBar('ch-'+month+'-td-rong',labs,{label:'GT ròng (tỷ)',data:rows.map(r=>+(r.gt_rong||0).toFixed(1))},color,210,true);
+
+  destroyC('ch-'+month+'-td-mb');
+  const c=document.getElementById('ch-'+month+'-td-mb');
+  if(c){
+    c.parentElement.style.height='210px';
+    CI['ch-'+month+'-td-mb']=new Chart(c,{type:'bar',data:{labels:labs,datasets:[
+      {label:'GT Mua (tỷ)',data:rows.map(r=>+(r.gt_mua||0).toFixed(1)),backgroundColor:'#16a34a88',borderColor:'#16a34a',borderWidth:1,borderRadius:3},
+      {label:'GT Bán (tỷ)',data:rows.map(r=>-(r.gt_ban||0).toFixed(1)),backgroundColor:'#dc262688',borderColor:'#dc2626',borderWidth:1,borderRadius:3}
+    ]},options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{font:{size:10.5},color:'#888',maxRotation:45,autoSkip:true,maxTicksLimit:14},grid:{display:false}},
+        y:{ticks:{font:{size:10.5},color:'#888',callback:v=>Math.abs(v).toLocaleString('vi-VN')},grid:{color:'#f0efec'},
+           stacked:false}
+      }
+    }});
+  }
+
+  const tb=document.getElementById('tb-'+month+'-td');
+  tb.innerHTML=rows.map(r=>{
+    const rong=r.gt_rong||0;
+    return `<tr>
+      <td>${r.date}</td>
+      <td>${fm(r.kl_mua)}</td><td>${f1(r.gt_mua)}</td>
+      <td>${fm(r.kl_ban)}</td><td>${f1(r.gt_ban)}</td>
+      <td class="${rong>=0?'up':'down'}">${r.kl_rong!=null?Math.round(r.kl_rong/1e6).toLocaleString('vi-VN'):'—'}</td>
+      <td class="${rong>=0?'up':'down'}" style="font-weight:700">${f1(rong)}</td>
+      <td class="${(r.delta||0)>=0?'up':'down'}">${r.delta!=null?f1(r.delta):'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── NAVIGATION ──
+function goto(id,el){
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('p-'+id).classList.add('active');
+}
+
+function switchSec(month, sec, el){
+  const pid='p-'+month.toLowerCase();
+  document.querySelectorAll('#'+pid+' .stab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#'+pid+' .ssec').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sec-'+month+'-'+sec).classList.add('active');
+}
+
+fetchData();
+</script>
+</body>
+</html>
