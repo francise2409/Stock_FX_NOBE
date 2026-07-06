@@ -1,6 +1,6 @@
 {
   "file": "phan tich dong tien_2026.xlsm",
-  "updated_at": "28/06/2026 21:51:16",
+  "updated_at": "06/07/2026 18:36:33",
   "months": {
     "April": {
       "stats": {
@@ -1860,6 +1860,88 @@
           "delta": -1101.89
         }
       ]
+    },
+    "July": {
+      "stats": {
+        "vnindex_dau_thang": 1677.54,
+        "vnindex_cuoi_thang": 1891.2,
+        "tang_truong": 0.1274,
+        "tong_gtgd": 35189.72,
+        "avg_gtgd_20ng": 17594.86,
+        "tong_lenh_khop": null,
+        "avg_lenh_20ng": null,
+        "muc_do": null
+      },
+      "vnindex": [
+        {
+          "date": "04/07/2026",
+          "close": 1677.54,
+          "open": 1677.99,
+          "high": 1690.31,
+          "low": 1665.36,
+          "vol_kl": 563089100.0,
+          "val_ty": 13432.87
+        },
+        {
+          "date": "05/07/2026",
+          "close": 1891.2,
+          "open": 1881.22,
+          "high": 1892.0,
+          "low": 1868.92,
+          "vol_kl": 787614800.0,
+          "val_ty": 21756.85
+        }
+      ],
+      "khoi_ngoai": [
+        {
+          "date": "05/07/2026",
+          "kl_rong": -19068000.0,
+          "gt_rong": -276.51,
+          "kl_mua": 83959300.0,
+          "gt_mua": 3399.38,
+          "kl_ban": 103027300.0,
+          "gt_ban": 3675.89,
+          "pct_chg": null,
+          "trang_thai": "Bán ròng",
+          "cuong_do": -0.0391,
+          "xu_huong": "→ Trung lập",
+          "delta_gt": null
+        }
+      ],
+      "nn_summary": {
+        "tong_kl_rong": -19068000.0,
+        "tb_kl_rong": -19068000.0,
+        "tong_gt_rong": -276.51,
+        "tb_gt_rong": -276.51
+      },
+      "dat_lenh": [
+        {
+          "date": "05/07/2026",
+          "sl_mua": 546578.0,
+          "kl_mua": 1496480848.0,
+          "kltb_mua": 2738.0,
+          "sl_ban": 503021.0,
+          "kl_ban": 1708619885.0,
+          "kltb_ban": 3397.0,
+          "kl_rong": -212139037.0,
+          "xu_huong": null,
+          "pct_du": null,
+          "pct_kltb": null
+        }
+      ],
+      "tu_doanh": [
+        {
+          "date": "05/07/2026",
+          "kl_mua": 22458600.0,
+          "gt_mua": 944.93,
+          "kl_ban": 17167090.0,
+          "gt_ban": 766.78,
+          "kl_rong": 5291510.0,
+          "gt_rong": 178.14,
+          "delta": null
+        }
+      ],
+      "is_live": true
     }
   },
   "tong_hop": {
