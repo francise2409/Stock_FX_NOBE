@@ -1,6 +1,6 @@
 {
   "file": "phan tich dong tien_2026.xlsm",
-  "updated_at": "06/07/2026 18:36:33",
+  "updated_at": "06/07/2026 23:30:35",
   "months": {
     "April": {
       "stats": {
@@ -1863,33 +1863,24 @@
     },
     "July": {
       "stats": {
-        "vnindex_dau_thang": 1677.54,
-        "vnindex_cuoi_thang": 1891.2,
-        "tang_truong": 0.1274,
-        "tong_gtgd": 35189.72,
-        "avg_gtgd_20ng": 17594.86,
-        "tong_lenh_khop": null,
-        "avg_lenh_20ng": null,
-        "muc_do": null
+        "tong_lenh_khop": 798.7952,
+        "avg_lenh_20ng": 798.7952,
+        "tong_gtgd": 0.0,
+        "avg_gtgd_20ng": 0.0,
+        "vnindex_dau_thang": 1843.5,
+        "vnindex_cuoi_thang": 0.0,
+        "tang_truong": -1.0,
+        "muc_do": "Sideway or Weak"
       },
       "vnindex": [
         {
-          "date": "04/07/2026",
-          "close": 1677.54,
-          "open": 1677.99,
-          "high": 1690.31,
-          "low": 1665.36,
-          "vol_kl": 563089100.0,
-          "val_ty": 13432.87
-        },
-        {
-          "date": "05/07/2026",
-          "close": 1891.2,
-          "open": 1881.22,
-          "high": 1892.0,
-          "low": 1868.92,
-          "vol_kl": 787614800.0,
-          "val_ty": 21756.85
+          "date": "06/07/2026",
+          "close": 1843.5,
+          "open": 0.0,
+          "high": 0.0,
+          "low": 1843.5,
+          "vol_kl": 798795216.0,
+          "val_ty": 0.0
         }
       ],
       "khoi_ngoai": [
@@ -1901,7 +1892,7 @@
           "gt_mua": 3399.38,
           "kl_ban": 103027300.0,
           "gt_ban": 3675.89,
-          "pct_chg": null,
+          "pct_chg": -0.0391,
           "trang_thai": "Bán ròng",
           "cuong_do": -0.0391,
           "xu_huong": "→ Trung lập",
@@ -1909,8 +1900,8 @@
         }
       ],
       "nn_summary": {
-        "tong_kl_rong": -19068000.0,
-        "tb_kl_rong": -19068000.0,
+        "tong_kl_rong": -19.068,
+        "tb_kl_rong": -19.068,
         "tong_gt_rong": -276.51,
         "tb_gt_rong": -276.51
       },
@@ -1923,10 +1914,10 @@
           "sl_ban": 503021.0,
           "kl_ban": 1708619885.0,
           "kltb_ban": 3397.0,
-          "kl_rong": -212139037.0,
-          "xu_huong": null,
-          "pct_du": null,
-          "pct_kltb": null
+          "kl_rong": null,
+          "xu_huong": "—",
+          "pct_du": 0.0797,
+          "pct_kltb": -0.2407
         }
       ],
       "tu_doanh": [
@@ -1940,8 +1931,7 @@
           "gt_rong": 178.14,
           "delta": null
         }
-      ],
-      "is_live": true
+      ]
     }
   },
   "tong_hop": {
@@ -2060,19 +2050,19 @@
       ],
       [
         "Month 7",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "#VALUE!",
-        ""
+        "-1",
+        "Sideway or Weak",
+        "0",
+        "0",
+        "798.795216",
+        "798.795216",
+        "-19.068",
+        "-276.51",
+        "-19.068",
+        "-276.51",
+        "0",
+        "-1",
+        "178.14"
       ],
       [
         "Month 8",
@@ -2087,7 +2077,7 @@
         "",
         "",
         "",
-        "#VALUE!",
+        "#DIV/0!",
         ""
       ],
       [
