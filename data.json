@@ -1,6 +1,6 @@
 {
   "file": "phan tich dong tien_2026.xlsm",
-  "updated_at": "13/08/2026 23:31:36",
+  "updated_at": "14/08/2026 23:30:35",
   "months": {
     "April": {
       "stats": {
@@ -1936,8 +1936,8 @@
     "August": {
       "stats": {
         "vnindex_dau_thang": 1853.7,
-        "vnindex_cuoi_thang": 1765.63,
-        "tang_truong": -0.0475,
+        "vnindex_cuoi_thang": 1729.08,
+        "tang_truong": -0.0672,
         "tong_gtgd": null,
         "avg_gtgd_20ng": null,
         "tong_lenh_khop": null,
@@ -1961,6 +1961,15 @@
           "high": 0.0,
           "low": 1765.63,
           "vol_kl": 750529815.0,
+          "val_ty": 0.0
+        },
+        {
+          "date": "14/08/2026",
+          "close": 1729.08,
+          "open": 0.0,
+          "high": 0.0,
+          "low": 1729.08,
+          "vol_kl": 737513274.0,
           "val_ty": 0.0
         }
       ],
@@ -2034,13 +2043,27 @@
           "cuong_do": -0.128,
           "xu_huong": "↑ Áp lực bán giảm",
           "delta_gt": 0.4144
+        },
+        {
+          "date": "14/08/2026",
+          "kl_rong": -12023800.0,
+          "gt_rong": -849.05,
+          "kl_mua": 57603900.0,
+          "gt_mua": 1716.35,
+          "kl_ban": 69627700.0,
+          "gt_ban": 2565.41,
+          "pct_chg": null,
+          "trang_thai": "Bán ròng",
+          "cuong_do": -0.1983,
+          "xu_huong": "↓ Bán ròng tăng",
+          "delta_gt": -0.1696
         }
       ],
       "nn_summary": {
-        "tong_kl_rong": -47320824.0,
-        "tb_kl_rong": -9464164.8,
-        "tong_gt_rong": -3209.53,
-        "tb_gt_rong": -641.906
+        "tong_kl_rong": -59344624.0,
+        "tb_kl_rong": -9890770.6667,
+        "tong_gt_rong": -4058.58,
+        "tb_gt_rong": -676.43
       },
       "dat_lenh": [
         {
@@ -2094,6 +2117,19 @@
           "xu_huong": null,
           "pct_du": null,
           "pct_kltb": null
+        },
+        {
+          "date": "14/08/2026",
+          "sl_mua": 500333.0,
+          "kl_mua": 1243136293.0,
+          "kltb_mua": 2485.0,
+          "sl_ban": 326427.0,
+          "kl_ban": 1205166899.0,
+          "kltb_ban": 3692.0,
+          "kl_rong": 37969394.0,
+          "xu_huong": null,
+          "pct_du": null,
+          "pct_kltb": null
         }
       ],
       "tu_doanh": [
@@ -2125,6 +2161,16 @@
           "gt_ban": 692.14,
           "kl_rong": -2160750.0,
           "gt_rong": -98.96,
+          "delta": null
+        },
+        {
+          "date": "13/08/2026",
+          "kl_mua": 16017269.0,
+          "gt_mua": 504.94,
+          "kl_ban": 18834673.0,
+          "gt_ban": 694.3,
+          "kl_rong": -2817404.0,
+          "gt_rong": -189.36,
           "delta": null
         }
       ],
