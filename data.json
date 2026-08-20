@@ -1,6 +1,6 @@
 {
   "file": "phan tich dong tien_2026.xlsm",
-  "updated_at": "19/08/2026 23:31:39",
+  "updated_at": "20/08/2026 23:31:40",
   "months": {
     "April": {
       "stats": {
@@ -2103,13 +2103,27 @@
           "cuong_do": -0.2618,
           "xu_huong": "↓↓ Bán ròng tăng mạnh",
           "delta_gt": -0.1782
+        },
+        {
+          "date": "20/08/2026",
+          "kl_rong": -28758400.0,
+          "gt_rong": -610.98,
+          "kl_mua": 22367900.0,
+          "gt_mua": 965.05,
+          "kl_ban": 51126300.0,
+          "gt_ban": 1576.03,
+          "pct_chg": null,
+          "trang_thai": "Bán ròng",
+          "cuong_do": -0.2404,
+          "xu_huong": "↓ Bán ròng tăng",
+          "delta_gt": -0.0327
         }
       ],
       "nn_summary": {
-        "tong_kl_rong": -94653524.0,
-        "tb_kl_rong": -11831690.5,
-        "tong_gt_rong": -5374.01,
-        "tb_gt_rong": -671.7513
+        "tong_kl_rong": -123411924.0,
+        "tb_kl_rong": -13712436.0,
+        "tong_gt_rong": -5984.99,
+        "tb_gt_rong": -664.9989
       },
       "dat_lenh": [
         {
@@ -2202,6 +2216,19 @@
           "xu_huong": null,
           "pct_du": null,
           "pct_kltb": null
+        },
+        {
+          "date": "20/08/2026",
+          "sl_mua": 306709.0,
+          "kl_mua": 776652766.0,
+          "kltb_mua": 2532.0,
+          "sl_ban": 255325.0,
+          "kl_ban": 845000573.0,
+          "kltb_ban": 3310.0,
+          "kl_rong": -68347807.0,
+          "xu_huong": null,
+          "pct_du": null,
+          "pct_kltb": null
         }
       ],
       "tu_doanh": [
@@ -2263,6 +2290,16 @@
           "gt_ban": 639.33,
           "kl_rong": -9296240.0,
           "gt_rong": -349.9,
+          "delta": null
+        },
+        {
+          "date": "19/08/2026",
+          "kl_mua": 8561270.0,
+          "gt_mua": 486.78,
+          "kl_ban": 0.0,
+          "gt_ban": 323.86,
+          "kl_rong": 8561270.0,
+          "gt_rong": 162.92,
           "delta": null
         }
       ],
