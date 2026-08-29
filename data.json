@@ -1,6 +1,6 @@
 {
   "file": "phan tich dong tien_2026.xlsm",
-  "updated_at": "28/08/2026 23:30:39",
+  "updated_at": "29/08/2026 23:31:00",
   "months": {
     "April": {
       "stats": {
@@ -2576,6 +2576,16 @@
           "gt_ban": 983.82,
           "kl_rong": -13504717.0,
           "gt_rong": -604.11,
+          "delta": null
+        },
+        {
+          "date": "28/08/2026",
+          "kl_mua": 33121752.0,
+          "gt_mua": 489.67,
+          "kl_ban": 0.0,
+          "gt_ban": 1146.53,
+          "kl_rong": 33121752.0,
+          "gt_rong": -656.86,
           "delta": null
         }
       ],
