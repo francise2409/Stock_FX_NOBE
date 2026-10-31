@@ -1,6 +1,6 @@
 {
   "file": "phan tich dong tien_2026.xlsm",
-  "updated_at": "30/10/2026 23:31:48",
+  "updated_at": "31/10/2026 23:30:53",
   "months": {
     "April": {
       "stats": {
@@ -1938,8 +1938,8 @@
         "vnindex_dau_thang": 1737.71,
         "vnindex_cuoi_thang": 1741.62,
         "tang_truong": 0.0023,
-        "tong_gtgd": 349753.46,
-        "avg_gtgd_20ng": 12060.46,
+        "tong_gtgd": 349828.44,
+        "avg_gtgd_20ng": 12063.05,
         "tong_lenh_khop": null,
         "avg_lenh_20ng": null,
         "muc_do": null
@@ -2203,8 +2203,8 @@
           "open": 1747.09,
           "high": 1748.68,
           "low": 1727.0,
-          "vol_kl": 573031900.0,
-          "val_ty": 11931.18
+          "vol_kl": 641042300.0,
+          "val_ty": 12006.16
         }
       ],
       "khoi_ngoai": [
@@ -2602,24 +2602,24 @@
         },
         {
           "date": "29/10/2026",
-          "kl_rong": -16729200.0,
-          "gt_rong": -634.53,
-          "kl_mua": 40389400.0,
-          "gt_mua": 1196.75,
-          "kl_ban": 57118600.0,
-          "gt_ban": 1831.29,
+          "kl_rong": -14805086.0,
+          "gt_rong": -633.42,
+          "kl_mua": 45629148.0,
+          "gt_mua": 1276.9,
+          "kl_ban": 60434234.0,
+          "gt_ban": 1910.32,
           "pct_chg": null,
           "trang_thai": "Bán ròng",
-          "cuong_do": -0.2096,
-          "xu_huong": "↓↓ Bán ròng tăng mạnh",
-          "delta_gt": -0.3005
+          "cuong_do": -0.1987,
+          "xu_huong": "↓ Bán ròng tăng",
+          "delta_gt": -0.2537
         }
       ],
       "nn_summary": {
-        "tong_kl_rong": -780967195.0,
-        "tb_kl_rong": -26929903.2759,
-        "tong_gt_rong": -29060.19,
-        "tb_gt_rong": -1002.0755
+        "tong_kl_rong": -779043081.0,
+        "tb_kl_rong": -26863554.5172,
+        "tong_gt_rong": -29059.08,
+        "tb_gt_rong": -1002.0372
       },
       "dat_lenh": [
         {
