@@ -1,6 +1,6 @@
 {
   "file": "phan tich dong tien_2026.xlsm",
-  "updated_at": "01/11/2026 23:30:50",
+  "updated_at": "02/11/2026 23:30:42",
   "months": {
     "April": {
       "stats": {
@@ -1932,6 +1932,79 @@
           "delta": null
         }
       ]
+    },
+    "November": {
+      "stats": {
+        "vnindex_dau_thang": 1710.02,
+        "vnindex_cuoi_thang": 1710.02,
+        "tang_truong": 0.0,
+        "tong_gtgd": 15836.29,
+        "avg_gtgd_20ng": 15836.29,
+        "tong_lenh_khop": null,
+        "avg_lenh_20ng": null,
+        "muc_do": null
+      },
+      "vnindex": [
+        {
+          "date": "01/11/2026",
+          "close": 1710.02,
+          "open": 1731.9,
+          "high": 1744.35,
+          "low": 1693.75,
+          "vol_kl": 724124600.0,
+          "val_ty": 15836.29
+        }
+      ],
+      "khoi_ngoai": [
+        {
+          "date": "01/11/2026",
+          "kl_rong": -8831700.0,
+          "gt_rong": -513.87,
+          "kl_mua": 75223400.0,
+          "gt_mua": 1833.83,
+          "kl_ban": 84055100.0,
+          "gt_ban": 2347.7,
+          "pct_chg": null,
+          "trang_thai": "Bán ròng",
+          "cuong_do": -0.1229,
+          "xu_huong": "↓ Bán ròng tăng",
+          "delta_gt": null
+        }
+      ],
+      "nn_summary": {
+        "tong_kl_rong": -8831700.0,
+        "tb_kl_rong": -8831700.0,
+        "tong_gt_rong": -513.87,
+        "tb_gt_rong": -513.87
+      },
+      "dat_lenh": [
+        {
+          "date": "01/11/2026",
+          "sl_mua": 529759.0,
+          "kl_mua": 1353038559.0,
+          "kltb_mua": 2554.0,
+          "sl_ban": 326061.0,
+          "kl_ban": 1328025519.0,
+          "kltb_ban": 4073.0,
+          "kl_rong": 25013040.0,
+          "xu_huong": null,
+          "pct_du": null,
+          "pct_kltb": null
+        }
+      ],
+      "tu_doanh": [
+        {
+          "date": "01/11/2026",
+          "kl_mua": 32514400.0,
+          "gt_mua": 959.66,
+          "kl_ban": 37131495.0,
+          "gt_ban": 1164.47,
+          "kl_rong": -4617095.0,
+          "gt_rong": -204.81,
+          "delta": null
+        }
+      ],
+      "is_live": true
     }
   },
   "tong_hop": {
